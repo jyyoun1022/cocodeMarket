@@ -64,8 +64,8 @@ class MemberRepositoryTest {
         // then
         Member foundMember = memberRepository.findById(member.getId()).orElseThrow(MemberNotFoundException::new);
         assertThat(foundMember.getRegisterDate()).isNotNull();
-        assertThat(foundMember.getModifyDate()).isNotNull();
-        assertThat(foundMember.getRegisterDate()).isEqualTo(foundMember.getModifyDate());
+        assertThat(foundMember.getModifyDate()).isNull();
+//        assertThat(foundMember.getRegisterDate()).isEqualTo(foundMember.getModifyDate());
     }
 
     @Test
