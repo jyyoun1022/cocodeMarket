@@ -2,6 +2,7 @@ package cocode.cocodeMarket.entity.member;
 
 import cocode.cocodeMarket.entity.common.BaseEntity;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -33,6 +34,7 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member", cascade = CascadeType.ALL, orphanRemoval = true) // 5
     private Set<MemberRole> roles;
 
+    @Builder
     public Member(String email, String password, String username, String nickname, List<Role> roles) {
         this.email = email;
         this.password = password;
