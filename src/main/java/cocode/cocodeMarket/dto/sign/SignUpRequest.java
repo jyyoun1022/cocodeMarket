@@ -4,12 +4,14 @@ import cocode.cocodeMarket.entity.member.Member;
 import cocode.cocodeMarket.entity.member.Role;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.List;
 
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class SignUpRequest {
     private String email;
     private String password;
