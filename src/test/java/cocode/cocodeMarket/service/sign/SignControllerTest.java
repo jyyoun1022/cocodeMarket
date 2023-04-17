@@ -62,13 +62,13 @@ public class SignControllerTest {
                         .content(om.writeValueAsString(req))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.result.data.accessToken").value("access"))
+                .andExpect(jsonPath("$.result.data.accessToken").value("access")) // 3
                 .andExpect(jsonPath("$.result.data.refreshToken").value("refresh"));
 
         verify(signService).signIn(req);
     }
     @Test
-    void ignoreNulLValueJsonResponseTest() throws Exception {
+    void ignoreNulLValueJsonResponseTest() throws Exception { // 4
         // given
         SignUpRequest req = new SignUpRequest("test@gmail.com", "12345@1", "tester", "testNick");
         // when, then
