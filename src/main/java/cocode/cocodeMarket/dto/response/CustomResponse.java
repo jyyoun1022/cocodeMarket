@@ -1,4 +1,4 @@
-package cocode.cocodeMarket.controller.response;
+package cocode.cocodeMarket.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
