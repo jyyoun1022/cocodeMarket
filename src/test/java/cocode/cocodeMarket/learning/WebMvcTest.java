@@ -1,6 +1,6 @@
 package cocode.cocodeMarket.learning;
 
-import cocode.cocodeMarket.controller.response.CustomResponse;
+import cocode.cocodeMarket.dto.response.CustomResponse;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

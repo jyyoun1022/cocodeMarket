@@ -1,4 +1,4 @@
-package cocode.cocodeMarket.controller.response;
+package cocode.cocodeMarket.dto.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package cocode.cocodeMarket.controller.sign;
 
-import cocode.cocodeMarket.controller.response.CustomResponse;
+import cocode.cocodeMarket.dto.response.CustomResponse;
 import cocode.cocodeMarket.dto.sign.SignInRequest;
 import cocode.cocodeMarket.dto.sign.SignUpRequest;
 import cocode.cocodeMarket.service.sign.SignService;
@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
 
-import static cocode.cocodeMarket.controller.response.CustomResponse.*;
+import static cocode.cocodeMarket.dto.response.CustomResponse.*;
 
 @RestController // 1
 @Log4j2
