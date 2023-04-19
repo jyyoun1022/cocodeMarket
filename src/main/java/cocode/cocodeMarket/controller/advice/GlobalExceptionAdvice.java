@@ -24,9 +24,10 @@ public class GlobalExceptionAdvice {
         return CustomResponse.failure(500,"FIND_ERROR_MESSAGE");
     }
     @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public CustomResponse processValidationError(MethodArgumentNotValidException e) {
         log.info("VALIDATION_CHECK");
-        return CustomResponse.failure(404,e.getMessage());
+        return CustomResponse.failure(404,e.getBindingResult().getFieldError().getDefaultMessage());
     }
 
     @ExceptionHandler(LoginFailureException.class)
