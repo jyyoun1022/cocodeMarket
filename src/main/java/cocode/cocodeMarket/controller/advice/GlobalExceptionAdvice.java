@@ -7,6 +7,7 @@ import cocode.cocodeMarket.exception.MemberNicknameAlreadyExistsException;
 import cocode.cocodeMarket.exception.RoleNotFoundException;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -21,6 +22,11 @@ public class GlobalExceptionAdvice {
         log.info("e:::::::>>> {}",e.toString());
         log.info("e ::::: {} ",e.getMessage());
         return CustomResponse.failure(500,"FIND_ERROR_MESSAGE");
+    }
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public CustomResponse processValidationError(MethodArgumentNotValidException e) {
+        log.info("VALIDATION_CHECK");
+        return CustomResponse.failure(404,e.getMessage());
     }
 
     @ExceptionHandler(LoginFailureException.class)
