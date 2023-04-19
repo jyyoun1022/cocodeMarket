@@ -29,12 +29,12 @@ public class SignUpRequest {
 
     @NotBlank(message = "사용자 이름은 필수 값입니다.")
     @Size(min = 2,message = "사용자 이름은 최소 2글자 이상 입니다.")
-    @Pattern(regexp = "^[A-Za-z가-힣]+$", message = "사용자 이름은 한글 또는 알파벳만 입력해주세요.")
+    @Pattern(regexp = "[a-zA-Z0-9]*$", message = "사용자 이름은 한글 또는 알파벳만 입력해주세요.")
     private String username;
 
     @NotBlank(message = "닉네임은 필수 값입니다.")
     @Size(min = 4, message = "닉네임은 최소 4글자 이상 입니다.")
-    @Pattern(regexp = "^[A-Za-z가-힣]+$", message = "닉네임은 한글 또는 알파벳만 입력해주세요.")
+    @Pattern(regexp = "[a-zA-Z0-9]*$",message = "닉네임은 한글 또는 알파벳만 입력해주세요.")
     private String nickname;
 
     public static Member toEntity(SignUpRequest request, Role role, PasswordEncoder encoder) {
