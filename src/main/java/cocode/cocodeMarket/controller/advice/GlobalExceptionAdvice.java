@@ -18,6 +18,7 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler(Exception.class)
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR) // 500Error
     public CustomResponse exception(Exception e) { // 1
+        log.info("e:::::::>>> {}",e.toString());
         log.info("e ::::: {} ",e.getMessage());
         return CustomResponse.failure(500,"FIND_ERROR_MESSAGE");
     }
@@ -30,7 +31,7 @@ public class GlobalExceptionAdvice {
 
     @ExceptionHandler(MemberEmailAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.CONFLICT) //충돌
-    public CustomResponse memberEmailAlreadyExistsException(MemberNicknameAlreadyExistsException e) {
+    public CustomResponse memberEmailAlreadyExistsException(MemberEmailAlreadyExistsException e) {
         return CustomResponse.failure(409,"CONFLICT_CAUSE_DUPLICATE_EMAIL");
     }
 
