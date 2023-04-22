@@ -55,4 +55,14 @@ public class GlobalExceptionAdvice {
     public CustomResponse roleNotFoundException() {
         return CustomResponse.failure(404,"ROLE_IS_NOT_EXIST");
     }
+    @ExceptionHandler(AuthenticationEntryPointException.class)
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public CustomResponse authenticationEntryPoint() {
+        return CustomResponse.failure(401,"IS_NOT_AUTHENTICATION");
+    }
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public CustomResponse accessDeniedException() {
+        return CustomResponse.failure(403,"ACCESS_IS_DENIED");
+    }
 }
