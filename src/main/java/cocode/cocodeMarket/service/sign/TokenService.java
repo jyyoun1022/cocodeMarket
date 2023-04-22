@@ -25,6 +25,18 @@ public class TokenService {
     public String createRefreshToken(String subject) {
         return jwtHandler.createToken(refreshKey,subject,refreshTokenMaxUseSeconds);
     }
+    public boolean validationAccessToken(String token) {
+        return jwtHandler.validate(accessKey,token);
+    }
+    public boolean validationRefreshToken(String token) {
+        return jwtHandler.validate(refreshKey,token);
+    }
+    public String extractAccessTokenSubject(String token) {
+        return jwtHandler.extractSubject(accessKey,token);
+    }
+    public String extractRefreshTokenSubject(String token) {
+        return jwtHandler.extractSubject(refreshKey,token);
+    }
 
 
 }
