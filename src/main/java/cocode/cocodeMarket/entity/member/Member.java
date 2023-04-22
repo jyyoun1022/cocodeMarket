@@ -1,10 +1,8 @@
 package cocode.cocodeMarket.entity.member;
 
 import cocode.cocodeMarket.entity.common.BaseEntity;
-import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
@@ -13,7 +11,6 @@ import java.util.stream.Collectors;
 
 @Entity
 @Getter
-@NoArgsConstructor(access = AccessLevel.PROTECTED) // 1
 public class Member extends BaseEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -41,6 +38,15 @@ public class Member extends BaseEntity {
         this.username = username;
         this.nickname = nickname;
         this.roles = roles.stream().map(role -> new MemberRole(this, role)).collect(Collectors.toSet());
+    }
+
+
+    protected Member(){
+        this.email = null;
+        this.password = null;
+        this.username = null;
+        this.nickname = null;
+        this.roles = Set.of();
     }
 
     public void updateNickname(String nickname) { // 6
