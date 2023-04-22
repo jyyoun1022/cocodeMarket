@@ -1,10 +1,7 @@
 package cocode.cocodeMarket.controller.advice;
 
 import cocode.cocodeMarket.dto.response.CustomResponse;
-import cocode.cocodeMarket.exception.LoginFailureException;
-import cocode.cocodeMarket.exception.MemberEmailAlreadyExistsException;
-import cocode.cocodeMarket.exception.MemberNicknameAlreadyExistsException;
-import cocode.cocodeMarket.exception.RoleNotFoundException;
+import cocode.cocodeMarket.exception.*;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -37,15 +34,21 @@ public class GlobalExceptionAdvice {
     }
 
     @ExceptionHandler(MemberEmailAlreadyExistsException.class)
-    @ResponseStatus(HttpStatus.CONFLICT) //충돌
+    @ResponseStatus(HttpStatus.CONFLICT)
     public CustomResponse memberEmailAlreadyExistsException(MemberEmailAlreadyExistsException e) {
-        return CustomResponse.failure(409,"CONFLICT_CAUSE_DUPLICATE_EMAIL");
+        return CustomResponse.failure(409,"::::::::::> "+e.getMessage() + "IS_DUPLICATE_EMAIL");
     }
 
     @ExceptionHandler(MemberNicknameAlreadyExistsException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public CustomResponse memberNotFoundException() {
-        return CustomResponse.failure(404,"MEMBER_IS_NOT_EXIST");
+    public CustomResponse memberNicknameAlreadyExistsException(MemberNicknameAlreadyExistsException e) {
+        return CustomResponse.failure(404,"::::::::::> " + e.getMessage() + "IS_DUPLICATE_NICKNAME");
+    }
+
+    @ExceptionHandler(MemberNotFoundException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public CustomResponse memberNotFoundException(){
+        return CustomResponse.failure(404,"::::::::::> MEMBER_IS_NOT_FOUND");
     }
     @ExceptionHandler(RoleNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
