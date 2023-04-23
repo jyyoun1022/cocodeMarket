@@ -18,7 +18,13 @@ public class JwtAuthenticationFilter extends GenericFilter {
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-
+        String token = extractToken((HttpServletRequest) request);
+        if (validateAccessToken(token)) {
+            setAccessAuthentication("access",token);
+        } else if (validateRefreshToken(token)) {
+            setRefreshAuthentication("refresh",token);
+        }
+        chain.doFilter(request,response);
     }
 
     private String extractToken(HttpServletRequest request) {
