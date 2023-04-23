@@ -3,6 +3,7 @@ package cocode.cocodeMarket.config.security;
 import cocode.cocodeMarket.service.sign.TokenService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.*;
 import javax.servlet.http.HttpServletRequest;
@@ -32,5 +33,11 @@ public class JwtAuthenticationFilter extends GenericFilter {
     private void setAccessAuthentication(String type, String token) {
         String userId = tokenService.extractAccessTokenSubject(token);
         PrincipalUserDetails userDetails = principalUserDetailsService.loadUserByUsername(userId);
+        SecurityContextHolder.getContext().setAuthentication(new CustomAuthenticationToken(userDetails.getAuthorities(),type,userDetails));
+    }
+    private void setRefreshAuthentication(String type, String token) {
+        String userId = tokenService.extractRefreshTokenSubject(token);
+        PrincipalUserDetails userDetails = principalUserDetailsService.loadUserByUsername(userId);
+        SecurityContextHolder.getContext().setAuthentication(new CustomAuthenticationToken(userDetails.getAuthorities(),type,userDetails));
     }
 }
