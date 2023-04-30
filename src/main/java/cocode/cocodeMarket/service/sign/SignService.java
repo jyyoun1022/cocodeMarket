@@ -1,14 +1,12 @@
 package cocode.cocodeMarket.service.sign;
 
+import cocode.cocodeMarket.dto.sign.RefreshTokenResponse;
 import cocode.cocodeMarket.dto.sign.SignInRequest;
 import cocode.cocodeMarket.dto.sign.SignInResponse;
 import cocode.cocodeMarket.dto.sign.SignUpRequest;
 import cocode.cocodeMarket.entity.member.Member;
 import cocode.cocodeMarket.entity.member.RoleType;
-import cocode.cocodeMarket.exception.LoginFailureException;
-import cocode.cocodeMarket.exception.MemberEmailAlreadyExistsException;
-import cocode.cocodeMarket.exception.MemberNicknameAlreadyExistsException;
-import cocode.cocodeMarket.exception.RoleNotFoundException;
+import cocode.cocodeMarket.exception.*;
 import cocode.cocodeMarket.repository.member.MemberRepository;
 import cocode.cocodeMarket.repository.role.RoleRepository;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +42,18 @@ public class SignService {
         return new SignInResponse(accessToken, refreshToken);
     }
 
+    public RefreshTokenResponse refreshToken(String reToken) {
+        validateRefreshToken(reToken);
+        String subject = tokenService.extractRefreshTokenSubject(reToken);
+        String accessToken = tokenService.createAccessToken(subject);
+        return new RefreshTokenResponse(accessToken);
+    }
+    private void validateRefreshToken(String reToken) {
+        if (!tokenService.validationRefreshToken(reToken)) {
+            throw new AuthenticationEntryPointException();
+        }
+    }
+
     private void validateSignUpInfo(SignUpRequest req) {
         if(memberRepository.existsByEmail(req.getEmail()))
             throw new MemberEmailAlreadyExistsException(req.getEmail());
@@ -59,4 +69,5 @@ public class SignService {
     private String createSubject(Member member) {
         return String.valueOf(member.getId());
     }
+
 }
