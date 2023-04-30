@@ -1,19 +1,19 @@
 package cocode.cocodeMarket.service.sign;
 
+import cocode.cocodeMarket.dto.sign.RefreshTokenResponse;
 import cocode.cocodeMarket.dto.sign.SignInRequest;
 import cocode.cocodeMarket.dto.sign.SignInResponse;
 import cocode.cocodeMarket.dto.sign.SignUpRequest;
 import cocode.cocodeMarket.entity.member.Member;
 import cocode.cocodeMarket.entity.member.Role;
 import cocode.cocodeMarket.entity.member.RoleType;
-import cocode.cocodeMarket.exception.LoginFailureException;
-import cocode.cocodeMarket.exception.MemberEmailAlreadyExistsException;
-import cocode.cocodeMarket.exception.MemberNicknameAlreadyExistsException;
-import cocode.cocodeMarket.exception.RoleNotFoundException;
+import cocode.cocodeMarket.exception.*;
 import cocode.cocodeMarket.repository.member.MemberRepository;
 import cocode.cocodeMarket.repository.role.RoleRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -118,4 +118,29 @@ public class SignServiceTest {
     private Member createMember() {
         return new Member("test@gmail.com","1234","tester","testNick", Collections.emptyList());
     }
+
+    @Test
+    void refreshTokenTest() {
+        // given
+        String refreshToken = "refreshToken";
+        String subject = "subject";
+        String accessToken = "accessToken";
+//        BDDMockito.given(tokenService.validationRefreshToken(refreshToken)).willReturn(true);
+        BDDMockito.given(tokenService.extractRefreshTokenSubject(refreshToken)).willReturn(subject);
+        BDDMockito.given(tokenService.createAccessToken(subject)).willReturn(accessToken);
+        // when
+        RefreshTokenResponse res = signService.refreshToken(refreshToken);
+        // then
+        Assertions.assertThat(res.getAccessToken()).isEqualTo(accessToken);
+    }
+    @Test
+    void refreshTokenExceptionByInvalidTokenTest() {
+        // given
+        String refreshToken = "refreshToken";
+        BDDMockito.given(tokenService.validationRefreshToken(refreshToken)).willReturn(false);
+        // when, then
+        Assertions.assertThatThrownBy(() -> signService.refreshToken(refreshToken))
+                .isInstanceOf(AuthenticationEntryPointException.class);
+    }
+
 }
