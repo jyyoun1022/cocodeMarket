@@ -3,6 +3,7 @@ package cocode.cocodeMarket.controller.sign;
 import cocode.cocodeMarket.controller.advice.GlobalExceptionAdvice;
 import cocode.cocodeMarket.dto.sign.SignInRequest;
 import cocode.cocodeMarket.dto.sign.SignUpRequest;
+import cocode.cocodeMarket.exception.AuthenticationEntryPointException;
 import cocode.cocodeMarket.exception.LoginFailureException;
 import cocode.cocodeMarket.exception.MemberEmailAlreadyExistsException;
 import cocode.cocodeMarket.exception.RoleNotFoundException;
@@ -95,4 +96,26 @@ public class SignControllerAdviceTest {
                 .content(objectMapper.writeValueAsString(req)))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
+
+    @Test
+    void refreshTokenAuthenticationEntryPointException() throws Exception {
+        // given
+        BDDMockito.given(signService.refreshToken(ArgumentMatchers.anyString())).willThrow(AuthenticationEntryPointException.class);
+        // when, then
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/refresh-token")
+                        .header("Authorization","refreshToken"))
+                .andExpect(MockMvcResultMatchers.status().isUnauthorized())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(401));
+    }
+    @Test
+    void refreshTokenMissingRequestHeaderException() throws Exception {
+        // given ,when, then
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/refresh-token"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(404));
+    }
+
+
 }

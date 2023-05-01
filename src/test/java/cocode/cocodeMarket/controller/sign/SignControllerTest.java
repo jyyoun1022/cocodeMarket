@@ -1,13 +1,15 @@
-package cocode.cocodeMarket.service.sign;
+package cocode.cocodeMarket.controller.sign;
 
-import cocode.cocodeMarket.controller.sign.SignController;
+import cocode.cocodeMarket.dto.sign.RefreshTokenResponse;
 import cocode.cocodeMarket.dto.sign.SignInRequest;
 import cocode.cocodeMarket.dto.sign.SignInResponse;
 import cocode.cocodeMarket.dto.sign.SignUpRequest;
+import cocode.cocodeMarket.service.sign.SignService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -78,6 +80,18 @@ public class SignControllerTest {
                         .content(om.writeValueAsString(req)))
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.result").doesNotExist());
+    }
+
+    @Test
+    void refreshTokenTest() throws Exception {
+        // given
+        BDDMockito.given(signService.refreshToken("refreshToken")).willReturn(new RefreshTokenResponse("accessToken"));
+        // when, then
+        mockMvc.perform(
+                post("/api/refresh-token")
+                        .header("Authorization","refreshToken"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.result.data.accessToken").value("accessToken"));
     }
 
 }
