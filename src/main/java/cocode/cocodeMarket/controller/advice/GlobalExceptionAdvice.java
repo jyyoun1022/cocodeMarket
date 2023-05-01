@@ -70,6 +70,6 @@ public class GlobalExceptionAdvice {
     @ExceptionHandler(MissingRequestHeaderException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public CustomResponse missingRequestHeaderException(MissingRequestHeaderException e) {
-        return CustomResponse.failure(404,e.getHeaderName() + "NEED_REQUEST_HEADER");
+        return CustomResponse.failure(400,e.getHeaderName() + " NEED_REQUEST_HEADER");
     }
 }

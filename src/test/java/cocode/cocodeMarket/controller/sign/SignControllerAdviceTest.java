@@ -114,7 +114,7 @@ public class SignControllerAdviceTest {
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/refresh-token"))
                 .andExpect(MockMvcResultMatchers.status().isBadRequest())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(404));
+                .andExpect(MockMvcResultMatchers.jsonPath("$.code").value(400));
     }
 
 
