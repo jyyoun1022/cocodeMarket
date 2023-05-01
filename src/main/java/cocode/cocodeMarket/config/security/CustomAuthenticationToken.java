@@ -27,7 +27,7 @@ public class CustomAuthenticationToken extends AbstractAuthenticationToken {
         return principal;
     }
 
-    public String getType() {
-        return type;
-    }
+//    public String getType() {
+//        return type;
+//    }
 }

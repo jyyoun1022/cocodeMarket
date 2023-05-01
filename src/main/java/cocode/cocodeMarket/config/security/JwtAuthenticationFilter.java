@@ -21,9 +21,10 @@ public class JwtAuthenticationFilter extends GenericFilter {
         String token = extractToken((HttpServletRequest) request);
         if (validateAccessToken(token)) {
             setAccessAuthentication("access",token);
-        } else if (validateRefreshToken(token)) {
-            setRefreshAuthentication("refresh",token);
         }
+//        else if (validateRefreshToken(token)) {
+//            setRefreshAuthentication("refresh",token);
+//        }
         chain.doFilter(request,response);
     }
 
