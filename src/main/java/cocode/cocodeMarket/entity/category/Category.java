@@ -30,7 +30,7 @@ public class Category {
     @Column(length = 30,nullable = false)
     private String name;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToMany(fetch = FetchType.LAZY)
     @JoinColumn(name = "parent_id")
     @OnDelete(action = OnDeleteAction.CASCADE) //1.
     private Category parent;
